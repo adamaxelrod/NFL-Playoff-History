@@ -1,0 +1,2 @@
+//CURENT ENVIRONMENT SETTINGS
+export const CURRENT_ENV = process.env.REACT_APP_RUN_ENV 
