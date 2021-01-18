@@ -1,6 +1,8 @@
 import boto3
 import csv
 import json
+import sys
+import getopt
 from boto3.dynamodb.conditions import Key, Attr
 
 db_region = "us-west-1"
@@ -169,8 +171,8 @@ def parseAndStoreOfficials():
             storeOfficial(row)
 
 
-def parseAndStorePlayoffAssignments():
-    with open(file_playoff_history, mode='r') as csv_file:
+def parseAndStorePlayoffAssignments(fileName):
+    with open(fileName, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
             print("ROW: {}".format(row["GAMEID"]))
@@ -186,10 +188,24 @@ def handler(event, context):
 
 """ Main driver """
 if __name__ == '__main__':
+    fileName = None
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hi:o:",["file="])
+    except getopt.GetoptError:
+        print("playoffs.py -u <file>")
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt in ("-f", "--file"):
+            fileName = arg
+
+    if fileName != None:
+        parseAndStorePlayoffAssignments(fileName)
+
     # parseAndStoreOfficials()
-    # parseAndStorePlayoffAssignments()
+    # parseAndStorePlayoffAssignments(fileName)
     # fetchOfficials()
     # fetchPlayoffGames()
     # fetchGameCrew("2021_01_16_01")
     # fetchGameCrew("2020_01_05_01")
-    fetchGameCrew("2021_01_17_01")
+    #fetchGameCrew("2021_01_17_01")
