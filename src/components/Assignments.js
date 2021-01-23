@@ -40,6 +40,19 @@ class Assignments extends Component {
 		this.fetchAssignments(this.state.officialId);
 	}
 
+	expandRow = {
+		renderer: row => (
+		  <div>
+			Game: {row.gameId}
+		  </div>
+		),
+		showExpandColumn: true,
+		onExpand: (row, isExpand, rowIndex, e) => {
+		},
+		onExpandAll: (isExpandAll, rows, e) => {
+		}
+	}
+
 	columns = [
 		{
 			text: 'Game',

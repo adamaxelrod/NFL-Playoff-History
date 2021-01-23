@@ -163,8 +163,8 @@ def storeAssignment(crew, assignment):
 """ Parse the schedule CSV and store it """
 
 
-def parseAndStoreOfficials():
-    with open(file_officials_info, mode='r') as csv_file:
+def parseAndStoreOfficials(fileName):
+    with open(fileName, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
             print("LOADING: {}".format(row['lastName']))
@@ -188,24 +188,29 @@ def handler(event, context):
 
 """ Main driver """
 if __name__ == '__main__':
-    fileName = None
+    officialsFile = None
+    playoffsFile = None
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hi:o:",["file="])
+        opts, args = getopt.getopt(
+            sys.argv[1:], "op:v", ["officials_file=", "playoffs_file="])
     except getopt.GetoptError:
-        print("playoffs.py -u <file>")
+        print("playoffs.py ")
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt in ("-f", "--file"):
-            fileName = arg
+        if opt in ("-o", "--officials_file"):
+            officialsFile = arg
+        elif opt in ("-p", "--playoffs_file"):
+            playoffsFile = arg
 
-    if fileName != None:
-        parseAndStorePlayoffAssignments(fileName)
+    if officialsFile != None:
+        parseAndStoreOfficials(officialsFile)
 
-    # parseAndStoreOfficials()
-    # parseAndStorePlayoffAssignments(fileName)
+    if playoffsFile != None:
+        parseAndStorePlayoffAssignments(playoffsFile)
+
     # fetchOfficials()
     # fetchPlayoffGames()
     # fetchGameCrew("2021_01_16_01")
     # fetchGameCrew("2020_01_05_01")
-    #fetchGameCrew("2021_01_17_01")
+    # fetchGameCrew("2021_01_17_01")

@@ -1,67 +1,127 @@
-import React from 'react';
+import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import Assignments from './Assignments';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
-const OfficialInfo = ({ officialInfo, fetchAssignments }) => {	
-	const rowBgFormat = (cell, row) => {    
-		return { backgroundColor: 'white' };
+class OfficialInfo extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			officialInfo: []
+		};
+	}
+	
+	rowBgFormat = (cell, row) => {    
+		return { backgroundColor: '#1F456E', color: 'white', fontWeight: 'bold', width: '10' };
 	};
 
-	const assignmentFormatter = (cell, row) => {  
+	rowSelectFormat = (cell, row) => {    
+		return { backgroundColor: 'green' };
+	};
+
+	assignmentFormatter = (cell, row) => {  
 		return <Assignments officialId={row.number+"-"+row.lastName}></Assignments>;
 	};
 
-	const columns = [
+	positions = ['R', 'U', 'DJ', 'LJ', 'FJ', 'SJ', 'BJ'];
+
+	columns = [
+		{
+			text: 'Id',
+			dataField: 'id',
+			style: this.rowBgFormat,
+			hidden: true
+		},
 		{
 			text: 'Position',
 			dataField: 'position',
-			style: rowBgFormat,
-			dataSort: true,
-			isKey: true,
-			sort: true
+			style: this.rowBgFormat,
+			sort: true,
+			filter: textFilter()
 		},
 		{
 			text: '#',
 			dataField: 'number',
-			style: rowBgFormat,
-			dataSort: true,
-			isKey: true
+			sort: true,
+			style: this.rowBgFormat,
+			filter: textFilter()
 		},		
 		{
 			text: 'First Name',
 			dataField: 'firstName',
-			style: rowBgFormat,
-			dataSort: true
+			sort: true,
+			style: this.rowBgFormat,
+			filter: textFilter()
 		},
 		{
 			text: 'Last Name',
 			dataField: 'lastName',
-			style: rowBgFormat,
-			dataSort: true,
-			isKey: true
-		},
+			sort: true,
+			style: this.rowBgFormat,
+			filter: textFilter()
+		}
+/* 	
 		{
 			text: 'Assignments',
 			dataField: 'assignments',
 			formatter: assignmentFormatter,
-			dataSort: true
-		}
+			dataSort: true,
+			filter: textFilter()
+		} 
+*/
 	];
 
-    const coloptions = {
-		defaultSortName: 'Position',  // default sort column name
-		defaultSortOrder: 'asc'  // default sort order
+	expandRow = {
+		renderer: row => (
+			<Assignments officialId={row.number + "-" + row.lastName}></Assignments>
+		),
+		showExpandColumn: false,
+		onExpand: (row, isExpand, rowIndex, e) => {
+			this.rowSelectFormat(row, row)
+		}
 	};
 
-	return (
-		<BootstrapTable			
-			bordered={true}
-			keyField="number,lastName,position"
-			columns={columns}
-			data={officialInfo}
-			options={coloptions}
-		/>
-	);
+	defaultSorted = [{
+		dataField: 'position',
+		order: 'asc'
+	}];
+
+	fetchOfficials() {
+		fetch('/officials',
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+				}
+			}
+		)
+		.then((res) => res.json())
+		.then((data) => {
+			this.setState({officialInfo: data})
+		})
+	}
+
+	componentDidMount() {
+		this.fetchOfficials(this.state.officialInfo);
+	}
+
+	render() {
+		return (
+			<BootstrapTable		
+				bootstrap4
+				striped
+				hover
+				search	
+				defaultSorted={this.defaultSorted} 
+				keyField="id"
+				columns={this.columns}
+				data={this.state.officialInfo}
+				filter={filterFactory()}
+				expandRow={this.expandRow}
+			/>
+		);
+	}
 };
 
 export default OfficialInfo;

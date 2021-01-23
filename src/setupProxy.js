@@ -20,4 +20,13 @@ module.exports = function(app) {
       securet: false
     })
   );
+
+  app.use(
+    '/games',
+    createProxyMiddleware({
+      target: PLAYOFF_URL,
+      changeOrigin: true,
+      securet: false
+    })
+  );
 };
