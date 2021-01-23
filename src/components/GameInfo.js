@@ -273,12 +273,7 @@ class GameInfo extends Component {
 						<th>Alternate BJ</th>
 						<td>{this.getNumber(row.ALTDJ)}</td>
 						<td>{this.getName(row.ALTDJ)}</td>
-					</tr>	
-					<tr>	
-						<th>Alternate DJ</th>
-						<td>{this.getNumber(row.ALTBJ)}</td>
-						<td>{this.getName(row.ALTBJ)}</td>
-					</tr>																																									
+					</tr>																																								
 				</tbody>
 			</table>
 		),
