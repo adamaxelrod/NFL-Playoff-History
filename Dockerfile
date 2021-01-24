@@ -1,4 +1,4 @@
-FROM node:15.6.0-alpine3.10
+FROM node:14.15.4
 WORKDIR /usr/app
 COPY package.json .
 RUN npm install --quiet
