@@ -7,6 +7,6 @@ services:
       - .:/usr/app/
       - /usr/app/node_modules
     ports:
-      - "80:3006"
+      - "3006:3006"
     depends_on:
     environment:
