@@ -30,7 +30,7 @@ class App extends Component {
 								<Alert className="alert-info"><Link to="/playoffs"><b>Playoff History</b></Link></Alert>
 							</div>
 							<div class="col">
-								<Alert className="alert-danger">Crew History (FUTURE)</Alert>
+								<Alert className="alert-danger">Crew History (TBD - Future)</Alert>
 							</div>
 						</div>
 					</nav>
