@@ -37,7 +37,7 @@
       "memoryReservation": 128,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "nfl-playoffs-history",
+      "image": "nfl-playoffs-history-container",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -54,7 +54,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "nfl-playoffs-history"
+      "name": "nfl-playoffs-history-container"
     }
   ],
   "placementConstraints": [],
@@ -65,7 +65,7 @@
     "FARGATE"
   ],
   "taskDefinitionArn": "ARN",
-  "family": "nfl-playoffs-history",
+  "family": "nfl-playoffs-history-container",
   "requiresAttributes": [],
   "pidMode": null,
   "requiresCompatibilities": [
